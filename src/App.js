@@ -44,7 +44,7 @@ export default function App() {
     };
 
     const fetchGames = () => {
-        fetch("https://free-nba.p.rapidapi.com/games?page=0&per_page=25", {
+        fetch("https://free-nba.p.rapidapi.com/games?page=0&per_page=100", {
             method: "GET",
             headers: {
                 "x-rapidapi-host": "free-nba.p.rapidapi.com",
@@ -70,6 +70,12 @@ export default function App() {
             });
     };
 
+    const sortedGames =
+        games.sort((a, b) => new Date(b.date) - new Date(a.date)) &&
+        games.sort((a, b) => (a.price > b.price ? -1 : 1));
+    
+    const lastThreeGamesTopScorers = sortedGames.slice(0,3);  
+
     return (
         <div className="App">
             <Header />
@@ -82,7 +88,7 @@ export default function App() {
                     .filter((player) => player.team.id === 10)
                     ?.map((filteredplayer) => (
                         <li key={filteredplayer.id} style={{ margin: "30px" }}>
-                            <div>{`Name: ${filteredplayer.first_name}`}</div>
+                            <div>{`Full Name: ${filteredplayer.first_name} ${filteredplayer.last_name}`}</div>
                             <div>{`Team_ID: ${filteredplayer.team.id}`}</div>
                             <div>{`Team_Name: ${filteredplayer.team.full_name}`}</div>
                         </li>
@@ -92,11 +98,12 @@ export default function App() {
             {gamesLoading && <p>Games are loading</p>}
             {gamesError && <p>{gamesError}</p>}
             <ol>
-                {games?.map((game) => (
+                {lastThreeGamesTopScorers?.map((game) => (
                     <li key={game.id} style={{ margin: "30px" }}>
-                        <div>{`Team_ID: ${game.id}`}</div>
+                        {/* <div>{`Team_ID: ${game.id}`}</div> */}
                         <div>{`Date: ${game.date}`}</div>
                         <div>{`Game_Score: ${game.home_team_score}`}</div>
+                        <div>{`Team_Name: ${game.home_team.full_name}`}</div>
                     </li>
                 ))}
             </ol>
