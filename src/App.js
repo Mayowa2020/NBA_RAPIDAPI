@@ -69,44 +69,70 @@ export default function App() {
                 setGamesLoading(false);
             });
     };
+    const filteredplayer = players.filter((player) => player.team.id === 10);
 
     const sortedGames =
         games.sort((a, b) => new Date(b.date) - new Date(a.date)) &&
         games.sort((a, b) => (a.price > b.price ? -1 : 1));
-    
-    const lastThreeGamesTopScorers = sortedGames.slice(0,3);  
+
+    const lastThreeGamesTopScorers = sortedGames.slice(0, 3);
 
     return (
-        <div className="App">
+        <div className="app-container">
             <Header />
             <h2>Players</h2>
             {playersLoading && <p>Players are loading</p>}
             {playersError && <p>{playersError}</p>}
 
-            <ol>
-                {players
-                    .filter((player) => player.team.id === 10)
-                    ?.map((filteredplayer) => (
-                        <li key={filteredplayer.id} style={{ margin: "30px" }}>
-                            <div>{`Full Name: ${filteredplayer.first_name} ${filteredplayer.last_name}`}</div>
-                            <div>{`Team_ID: ${filteredplayer.team.id}`}</div>
-                            <div>{`Team_Name: ${filteredplayer.team.full_name}`}</div>
-                        </li>
-                    ))}
-            </ol>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Team_ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredplayer?.map((filteredplayer) => (
+                            <tr
+                                key={filteredplayer.id}
+                                style={{ margin: "30px" }}
+                            >
+                                <td>
+                                    {filteredplayer.first_name}{" "}
+                                    {filteredplayer.last_name}
+                                </td>
+                                <td>{filteredplayer.team.id}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
             <h2>Games</h2>
             {gamesLoading && <p>Games are loading</p>}
             {gamesError && <p>{gamesError}</p>}
-            <ol>
-                {lastThreeGamesTopScorers?.map((game) => (
-                    <li key={game.id} style={{ margin: "30px" }}>
-                        {/* <div>{`Team_ID: ${game.id}`}</div> */}
-                        <div>{`Date: ${game.date}`}</div>
-                        <div>{`Game_Score: ${game.home_team_score}`}</div>
-                        <div>{`Team_Name: ${game.home_team.full_name}`}</div>
-                    </li>
-                ))}
-            </ol>
+
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Team_Name</th>
+                            <th>Game_Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {lastThreeGamesTopScorers?.map((game) => (
+                            <tr key={game.id} style={{ margin: "30px" }}>
+                                <td>{game.date}</td>
+                                <td>{game.home_team.full_name}</td>
+                                <td>{game.home_team_score}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

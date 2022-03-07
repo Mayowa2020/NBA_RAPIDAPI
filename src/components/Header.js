@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
     return (
         <header>
-            <h1>NBA API</h1>
+            <h1>NBA APIs</h1>
         </header>
     );
 };
