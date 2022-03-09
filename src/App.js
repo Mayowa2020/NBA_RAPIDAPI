@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Header from "./components/Header";
+import Header from "./components/header";
 
 export default function App() {
     const [players, setPlayers] = useState([]);
@@ -73,7 +73,7 @@ export default function App() {
 
     const sortedGames =
         games.sort((a, b) => new Date(b.date) - new Date(a.date)) &&
-        games.sort((a, b) => (a.price > b.price ? -1 : 1));
+        games.sort((a, b) => (a.home_team_score > b.home_team_score ? -1 : 1));
 
     const lastThreeGamesTopScorers = sortedGames.slice(0, 3);
 
